@@ -124,7 +124,7 @@
         }
 
         .admin-toggle {
-            color: #d7b7ff !important;
+            color: #ad0000 !important;
         }
 
         .page {
@@ -946,6 +946,17 @@
                 document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
             }
 
+            function openStaffModal() {
+                document.getElementById('staffTarget').value = 'staff';
+
+                ['staffPseudo', 'staffRole', 'staffDescription', 'staffResponsibilities'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+
+                document.getElementById('staffSkinPhoto').value = '';
+                document.getElementById('staffModal').classList.add('active');
+            }
+            
             function readImage(file) {
                 return new Promise((resolve, reject) => {
                     if (!file) return resolve('');
