@@ -931,7 +931,12 @@
             }
 
             function openStaffModal() {
-                ['staffPseudo', 'staffRole', 'staffSince', 'staffDescription', 'staffResponsibilities', 'staffJoined'].forEach(id => document.getElementById(id).value = '');
+                console.log("Ouverture modal staff");
+
+                ['staffPseudo', 'staffRole', 'staffDescription', 'staffResponsibilities'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+
                 document.getElementById('staffSkinPhoto').value = '';
                 document.getElementById('staffModal').classList.add('active');
             }
