@@ -124,22 +124,9 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            position: relative;
-            overflow: hidden;
             padding: 80px 20px 110px;
-            background:
-                linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .78)),
-                url("assets/accueil.png") center/cover;
-        }
 
-        .hero::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at center 28%, rgba(222, 169, 63, .35), transparent 20%),
-                linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .85));
-            z-index: 0;
+            background: url("assets/accueil.png") center/cover no-repeat;
         }
 
         .hero-inner {
