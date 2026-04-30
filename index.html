@@ -1002,7 +1002,6 @@
                         role: document.getElementById('staffRole').value.trim() || 'Membre du staff',
                         description: document.getElementById('staffDescription').value.trim(),
                         image_url: image || null,
-                        responsabilites: document.getElementById('staffResponsibilities').value.trim()
                     };
             
                     const { error } = await supabaseClient
