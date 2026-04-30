@@ -645,11 +645,14 @@
         </section>
 
         <section id="guide" class="page section">
-            <div class="visual guide"></div>
+            <div class="visual guide">
+                <div class="visual-inner">
+                    <h2>GUIDE</h2>
+                    <p>Le guide est là pour t'aider à bien commencer la survie et comprendre nos intentions : avancer tranquillement, respecter les constructions et garder un vrai esprit vanilla.</p>
+                </div>
+            </div>
+
             <div class="panel">
-                <h2>Guide</h2>
-                <p>Le guide est là pour t'aider à bien commencer la survie et comprendre nos intentions : avancer
-                    tranquillement, respecter les constructions et garder un vrai esprit vanilla.</p>
                 <div class="cards">
                     <div class="card">
                         <h3>1. Rejoindre</h3>
@@ -669,6 +672,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
@@ -685,47 +689,63 @@
         </section>
 
         <section id="communaute" class="page section">
-            <div class="visual communaute"></div>
+            <div class="visual communaute">
+                <div class="visual-inner">
+                    <h2>COMMUNAUTÉ</h2>
+                    <p>Les joueurs actifs du serveur, leurs skins et une petite description de leur aventure.</p>
+                </div>
+            </div>
+
             <div class="panel">
-                <h2>Communauté</h2>
-                <p>Les joueurs actifs du serveur, leurs skins et une petite description de leur aventure.</p>
-                <button class="mc-btn admin-only" onclick="openPlayerModal('community')">Clique pour ajouter un
-                    joueur</button>
+                <button class="mc-btn admin-only" onclick="openPlayerModal('community')">
+                    Clique pour ajouter un joueur
+                </button>
+
                 <div class="cards" id="communityList"></div>
                 <div class="empty-box" id="communityEmpty">Aucun joueur ajouté pour le moment.</div>
             </div>
+
             <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
         <section id="equipe" class="page section">
-            <div class="visual equipe"></div>
+            <div class="visual equipe">
+                <div class="visual-inner">
+                    <h2>ÉQUIPE</h2>
+                    <p>Présentation des deux gérants et des futurs membres du staff si l'équipe s'agrandit.</p>
+                </div>
+            </div>
+
             <div class="panel">
-                <h2>Équipe</h2>
-                <p>Présentation des deux gérants et des futurs membres du staff si l'équipe s'agrandit.</p>
-                <button class="mc-btn admin-only" onclick="openPlayerModal('staff')">Clique pour ajouter un
-                    staff</button>
+                <button class="mc-btn admin-only" onclick="openPlayerModal('staff')">
+                    Clique pour ajouter un staff
+                </button>
+
                 <div class="cards" id="staffList"></div>
                 <div class="empty-box" id="staffEmpty">Aucun membre de l'équipe ajouté pour le moment.</div>
             </div>
+
             <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
         <section id="soutenir" class="page section">
-            <div class="visual soutenir"></div>
+            <div class="visual soutenir">
+                <div class="visual-inner">
+                    <h2>SOUTENIR</h2>
+                    <p>Aide le serveur à évoluer et à proposer encore plus de contenu.</p>
+                </div>
+            </div>
+
             <div class="panel">
-                <h2>Soutenir</h2>
-                <p>Les dons sont optionnels et servent uniquement à aider le serveur : hébergement, nom de domaine,
-                    outils, visuels et projets futurs.</p>
-                <p>UMS doit rester équitable : soutenir le serveur ne doit pas casser l'expérience des autres joueurs.
-                </p>
+                <p>Les dons sont optionnels et servent uniquement à aider le serveur : hébergement, nom de domaine, outils et projets futurs.</p>
                 <div class="button-row">
                     <a class="mc-btn purple" href="#">Faire un don</a>
                     <a class="mc-btn gray" href="https://discord.gg/TON-LIEN" target="_blank">Contacter l'équipe</a>
                 </div>
             </div>
+
             <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
-    </main>
 
     <div class="modal-backdrop" id="playerModal">
         <div class="modal">
