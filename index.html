@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UN MONDE SURVIE</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --green: #6aaa20;
             --green-dark: #3c6812;
+            --stone: #7e7e7e;
+            --stone-dark: #4b4b4b;
+            --black: #151515;
             --purple: #9b5cff;
-            --bg: #151515;
-            --panel: #222;
         }
 
         * {
@@ -25,7 +28,7 @@
 
         body {
             margin: 0;
-            background: var(--bg);
+            background: #151515;
             color: white;
             font-family: "Courier New", monospace;
             image-rendering: pixelated;
@@ -38,11 +41,11 @@
             pointer-events: none;
             background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 4px);
             z-index: 99;
-            opacity: .45;
+            opacity: .5;
         }
 
         .topbar {
-            min-height: 72px;
+            height: 72px;
             background: #111;
             border-bottom: 2px solid #333;
             display: flex;
@@ -63,7 +66,6 @@
             letter-spacing: 2px;
             text-shadow: 3px 3px 0 #000;
             text-transform: uppercase;
-            white-space: nowrap;
         }
 
         .brand img {
@@ -75,7 +77,7 @@
 
         .nav {
             display: flex;
-            gap: 26px;
+            gap: 28px;
             align-items: center;
             flex-wrap: wrap;
             justify-content: flex-end;
@@ -84,7 +86,7 @@
         .nav button {
             background: transparent;
             border: 0;
-            color: white;
+            color: #fff;
             cursor: pointer;
             font-family: inherit;
             font-size: 14px;
@@ -116,87 +118,35 @@
             display: block;
         }
 
-        .visual {
-            min-height: 510px;
+        .hero {
+            min-height: 590px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
             overflow: hidden;
-            padding: 80px 20px;
-            border-bottom: 2px solid #333;
-            background-size: cover;
-            background-position: center;
+            padding: 80px 20px 110px;
+            background:
+                linear-gradient(rgba(40, 26, 9, .12), rgba(21, 21, 21, .95) 74%, #151515 100%),
+                url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1800&q=80") center/cover;
         }
 
-        .visual::before {
+        .hero::before {
             content: "";
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(circle at center, rgba(255, 220, 120, .18), transparent 25%),
-                linear-gradient(rgba(0, 0, 0, .28), rgba(0, 0, 0, .78));
+                radial-gradient(circle at center 28%, rgba(222, 169, 63, .35), transparent 20%),
+                linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .85));
             z-index: 0;
         }
 
-        .visual-inner {
+        .hero-inner {
             position: relative;
             z-index: 1;
             width: min(900px, 100%);
             margin: 0 auto;
-        }
-
-        .visual.accueil {
-            background-image: url("assets/accueil.png");
-        }
-
-        .visual.guide {
-            background-image: url("assets/guide.png");
-        }
-
-        .visual.evenements {
-            background-image: url("assets/evenements.png");
-        }
-
-        .visual.communaute {
-            background-image: url("assets/communaute.png");
-        }
-
-        .visual.equipe {
-            background-image: url("assets/equipe.png");
-        }
-
-        .visual.soutenir {
-            background-image: url("assets/soutenir.png");
-        }
-
-        h1,
-        h2 {
-            margin: 0;
-            color: white;
-            text-transform: uppercase;
-            line-height: 1;
-            text-shadow: 5px 5px 0 #111, 8px 8px 0 rgba(0, 0, 0, .45);
-        }
-
-        .visual h1 {
-            font-size: clamp(40px, 7vw, 74px);
-            letter-spacing: 5px;
-        }
-
-        .visual h2 {
-            font-size: clamp(34px, 6vw, 58px);
-            letter-spacing: 4px;
-        }
-
-        .visual p {
-            width: min(680px, 100%);
-            margin: 20px auto 28px;
-            font-family: Arial, sans-serif;
-            font-size: 17px;
-            line-height: 1.55;
-            text-shadow: 2px 2px 0 #000;
         }
 
         .mascot {
@@ -206,6 +156,25 @@
             image-rendering: pixelated;
             margin-bottom: 8px;
             filter: drop-shadow(0 0 22px rgba(255, 216, 98, .45));
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(38px, 7vw, 72px);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            line-height: 1;
+            color: white;
+            text-shadow: 5px 5px 0 #1b1b1b, 8px 8px 0 rgba(0, 0, 0, .45);
+        }
+
+        .hero p {
+            width: min(650px, 100%);
+            margin: 20px auto 28px;
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.55;
+            text-shadow: 2px 2px 0 #000;
         }
 
         .button-row {
@@ -243,10 +212,6 @@
             background: linear-gradient(#9b5cff, #5725a4);
         }
 
-        .mc-btn.gold {
-            background: linear-gradient(#d7ad2f, #8b6516);
-        }
-
         .mc-btn:hover {
             transform: translateY(1px);
         }
@@ -262,7 +227,6 @@
             font-weight: 900;
             letter-spacing: 1px;
             text-shadow: 2px 2px 0 #000;
-            cursor: pointer;
         }
 
         .ip-box small {
@@ -275,25 +239,23 @@
             text-shadow: none;
         }
 
-        .content-section {
+        .section {
             padding: 54px 20px 38px;
             background: #151515;
             text-align: center;
             min-height: calc(100vh - 72px);
         }
 
-        .content-section.compact {
-            min-height: auto;
-        }
-
-        .content-section h2 {
+        .section h2 {
+            margin: 0 0 26px;
             color: var(--green);
             font-size: clamp(28px, 4vw, 40px);
             letter-spacing: 4px;
-            margin-bottom: 26px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 #000;
         }
 
-        .content-section p {
+        .section p {
             width: min(780px, 100%);
             margin: 0 auto 16px;
             font-family: Arial, sans-serif;
@@ -331,7 +293,7 @@
 
         .card h3 {
             margin: 0 0 12px;
-            color: white;
+            color: #fff;
             text-transform: uppercase;
             text-shadow: 2px 2px 0 #000;
         }
@@ -479,19 +441,13 @@
                 gap: 14px;
             }
 
-            .visual {
+            .hero {
                 min-height: 620px;
                 padding-top: 60px;
             }
 
             .mc-btn {
                 width: 100%;
-            }
-
-            .brand {
-                white-space: normal;
-                justify-content: center;
-                text-align: center;
             }
         }
     </style>
@@ -500,7 +456,7 @@
 <body>
     <header class="topbar">
         <div class="brand">
-            <img id="brandLogo" src="assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+            <img id="brandLogo" src="" alt="Logo" onerror="this.style.display='none'">
             <span>UN MONDE SURVIE</span>
         </div>
 
@@ -517,9 +473,9 @@
 
     <main>
         <section id="accueil" class="page active">
-            <div class="visual accueil">
-                <div class="visual-inner">
-                    <img class="mascot" src="assets/mascotte.png" alt="Mascotte" onerror="this.style.display='none'">
+            <div class="hero">
+                <div class="hero-inner">
+                    <img class="mascot" src="" alt="Mascotte" onerror="this.style.display='none'">
                     <h1>UN MONDE SURVIE</h1>
                     <p>Un serveur Minecraft survie communautaire où chaque bloc raconte une histoire. Rejoignez une
                         communauté chill, familiale et construisez votre légende.</p>
@@ -533,7 +489,8 @@
                     </div>
                 </div>
             </div>
-            <div class="content-section compact">
+
+            <div class="section" style="min-height:auto;">
                 <h2>Pourquoi nous rejoindre ?</h2>
                 <div class="cards">
                     <div class="card">
@@ -554,136 +511,82 @@
             </div>
         </section>
 
-        <section id="guide" class="page">
-            <div class="visual guide">
-                <div class="visual-inner">
-                    <h2>Guide</h2>
-                    <p>Apprenez les bases, comprenez nos intentions et commencez votre aventure dans les meilleures
-                        conditions.</p>
-                    <button class="mc-btn"
-                        onclick="document.getElementById('guide-content').scrollIntoView({behavior:'smooth'});">Lire le
-                        guide</button>
-                </div>
-            </div>
-            <div id="guide-content" class="content-section">
-                <div class="panel">
-                    <h2>Bien commencer</h2>
-                    <p>Le guide est là pour t'aider à bien commencer la survie et comprendre nos intentions : avancer
-                        tranquillement, respecter les constructions et garder un vrai esprit vanilla.</p>
-                    <div class="cards">
-                        <div class="card">
-                            <h3>1. Rejoindre</h3>
-                            <p>Passe par le Discord, lis le règlement, présente-toi puis attends la whitelist.</p>
-                        </div>
-                        <div class="card">
-                            <h3>2. S'installer</h3>
-                            <p>Choisis une zone libre, construis proprement et respecte les projets voisins.</p>
-                        </div>
-                        <div class="card">
-                            <h3>3. Protéger</h3>
-                            <p>Utilise les claims pour protéger tes coffres, bases et constructions importantes.</p>
-                        </div>
-                        <div class="card">
-                            <h3>4. Participer</h3>
-                            <p>Les échanges, builds communs et events font vivre le serveur sur le long terme.</p>
-                        </div>
+        <section id="guide" class="page section">
+            <div class="panel">
+                <h2>Guide</h2>
+                <p>Le guide est là pour t'aider à bien commencer la survie et comprendre nos intentions : avancer
+                    tranquillement, respecter les constructions et garder un vrai esprit vanilla.</p>
+                <div class="cards">
+                    <div class="card">
+                        <h3>1. Rejoindre</h3>
+                        <p>Passe par le Discord, lis le règlement, présente-toi puis attends la whitelist.</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. S'installer</h3>
+                        <p>Choisis une zone libre, construis proprement et respecte les projets voisins.</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Protéger</h3>
+                        <p>Utilise les claims pour protéger tes coffres, bases et constructions importantes.</p>
+                    </div>
+                    <div class="card">
+                        <h3>4. Participer</h3>
+                        <p>Les échanges, builds communs et events font vivre le serveur sur le long terme.</p>
                     </div>
                 </div>
-                <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
             </div>
+            <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
-        <section id="evenements" class="page">
-            <div class="visual evenements">
-                <div class="visual-inner">
-                    <h2>Événements</h2>
-                    <p>Retrouvez tous les événements passés, en cours et à venir sur le serveur.</p>
-                    <button class="mc-btn purple"
-                        onclick="document.getElementById('events-content').scrollIntoView({behavior:'smooth'});">Voir
-                        les événements</button>
-                </div>
+        <section id="evenements" class="page section">
+            <div class="panel">
+                <h2>Événements</h2>
+                <p>Retrouve ici les événements futurs, en cours et passés du serveur.</p>
+                <button class="mc-btn admin-only" onclick="openEventModal()">Ajouter un événement</button>
+                <div class="cards" id="eventList"></div>
+                <div class="empty-box" id="eventEmpty"><button class="mc-btn admin-only"
+                        onclick="openEventModal()">Ajouter un événement</button><br><br>Aucun événement présent.</div>
             </div>
-            <div id="events-content" class="content-section">
-                <div class="panel">
-                    <h2>Liste des événements</h2>
-                    <button class="mc-btn admin-only" onclick="openEventModal()">Ajouter un événement</button>
-                    <div class="cards" id="eventList"></div>
-                    <div class="empty-box" id="eventEmpty"><button class="mc-btn admin-only"
-                            onclick="openEventModal()">Ajouter un événement</button><br><br>Aucun événement présent.
-                    </div>
-                </div>
-                <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
-            </div>
+            <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
-        <section id="communaute" class="page">
-            <div class="visual communaute">
-                <div class="visual-inner">
-                    <h2>Communauté</h2>
-                    <p>Rencontrez les joueurs actifs du serveur et rejoignez une communauté soudée.</p>
-                    <button class="mc-btn gold"
-                        onclick="document.getElementById('community-content').scrollIntoView({behavior:'smooth'});">Découvrir</button>
-                </div>
+        <section id="communaute" class="page section">
+            <div class="panel">
+                <h2>Communauté</h2>
+                <p>Les joueurs actifs du serveur, leurs skins et une petite description de leur aventure.</p>
+                <button class="mc-btn admin-only" onclick="openPlayerModal('community')">Clique pour ajouter un
+                    joueur</button>
+                <div class="cards" id="communityList"></div>
+                <div class="empty-box" id="communityEmpty">Aucun joueur ajouté pour le moment.</div>
             </div>
-            <div id="community-content" class="content-section">
-                <div class="panel">
-                    <h2>Joueurs actifs</h2>
-                    <p>Les joueurs actifs du serveur, leurs skins et une petite description de leur aventure.</p>
-                    <button class="mc-btn admin-only" onclick="openPlayerModal('community')">Clique pour ajouter un
-                        joueur</button>
-                    <div class="cards" id="communityList"></div>
-                    <div class="empty-box" id="communityEmpty">Aucun joueur ajouté pour le moment.</div>
-                </div>
-                <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
-            </div>
+            <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
-        <section id="equipe" class="page">
-            <div class="visual equipe">
-                <div class="visual-inner">
-                    <h2>Équipe</h2>
-                    <p>Découvrez les membres de l'équipe qui travaillent chaque jour pour vous offrir la meilleure
-                        expérience.</p>
-                    <button class="mc-btn gray"
-                        onclick="document.getElementById('staff-content').scrollIntoView({behavior:'smooth'});">Voir
-                        l'équipe</button>
-                </div>
+        <section id="equipe" class="page section">
+            <div class="panel">
+                <h2>Équipe</h2>
+                <p>Présentation des deux gérants et des futurs membres du staff si l'équipe s'agrandit.</p>
+                <button class="mc-btn admin-only" onclick="openPlayerModal('staff')">Clique pour ajouter un
+                    staff</button>
+                <div class="cards" id="staffList"></div>
+                <div class="empty-box" id="staffEmpty">Aucun membre de l'équipe ajouté pour le moment.</div>
             </div>
-            <div id="staff-content" class="content-section">
-                <div class="panel">
-                    <h2>Staff du serveur</h2>
-                    <p>Présentation des deux gérants et des futurs membres du staff si l'équipe s'agrandit.</p>
-                    <button class="mc-btn admin-only" onclick="openPlayerModal('staff')">Clique pour ajouter un
-                        staff</button>
-                    <div class="cards" id="staffList"></div>
-                    <div class="empty-box" id="staffEmpty">Aucun membre de l'équipe ajouté pour le moment.</div>
-                </div>
-                <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
-            </div>
+            <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
 
-        <section id="soutenir" class="page">
-            <div class="visual soutenir">
-                <div class="visual-inner">
-                    <h2>Soutenir</h2>
-                    <p>Soutenez le serveur et aidez-nous à le développer encore plus loin.</p>
-                    <a class="mc-btn gold" href="#">Soutenir le serveur</a>
+        <section id="soutenir" class="page section">
+            <div class="panel">
+                <h2>Soutenir</h2>
+                <p>Les dons sont optionnels et servent uniquement à aider le serveur : hébergement, nom de domaine,
+                    outils, visuels et projets futurs.</p>
+                <p>UMS doit rester équitable : soutenir le serveur ne doit pas casser l'expérience des autres joueurs.
+                </p>
+                <div class="button-row">
+                    <a class="mc-btn purple" href="#">Faire un don</a>
+                    <a class="mc-btn gray" href="https://discord.gg/TON-LIEN" target="_blank">Contacter l'équipe</a>
                 </div>
             </div>
-            <div class="content-section">
-                <div class="panel">
-                    <h2>Dons & soutien</h2>
-                    <p>Les dons sont optionnels et servent uniquement à aider le serveur : hébergement, nom de domaine,
-                        outils, visuels et projets futurs.</p>
-                    <p>UMS doit rester équitable : soutenir le serveur ne doit pas casser l'expérience des autres
-                        joueurs.</p>
-                    <div class="button-row">
-                        <a class="mc-btn purple" href="#">Faire un don</a>
-                        <a class="mc-btn gray" href="https://discord.gg/TON-LIEN" target="_blank">Contacter l'équipe</a>
-                    </div>
-                </div>
-                <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
-            </div>
+            <div class="footer">Un monde survie © 2024. Tout droits reservés.</div>
         </section>
     </main>
 
@@ -721,30 +624,26 @@
     </div>
 
     <script>
+        // =========================
+        // CONFIG SUPABASE
+        // =========================
+        // Remplace uniquement ces 2 lignes par tes infos Supabase :
+        const SUPABASE_URL = "COLLE_TON_PROJECT_URL_ICI";
+        const SUPABASE_KEY = "COLLE_TA_ANON_PUBLIC_KEY_ICI";
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-        const STORAGE_KEY = 'ums-site-data-v3';
-        let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"community":[],"staff":[],"events":[]}');
 
-        function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-        function persistStaffDB(data) {
+        let state = {
+            community: [],
+            staff: [],
+            events: []
+        };
 
-            const formData = new FormData();
-
-            formData.append("pseudo", data.pseudo);
-            formData.append("role", data.role);
-            formData.append("depuis", data.depuis);
-            formData.append("description", data.description);
-            formData.append("responsabilites", data.responsabilites);
-            formData.append("rejoint_le", data.rejoint_le);
-
-            fetch("api/add_staff.php", {
-                method: "POST",
-                body: formData
-            })
-                .then(res => res.json())
-                .then(() => {
-                    console.log("Sauvegardé en DB");
-                });
+        function persist() {
+            // Ancienne sauvegarde localStorage désactivée.
+            // Les données sont maintenant chargées/sauvegardées via Supabase.
         }
 
         document.querySelectorAll('.nav button[data-page]').forEach(btn => {
@@ -765,7 +664,10 @@
             } else if (code !== null) alert('Code incorrect.');
         });
 
-        function copyIp() { navigator.clipboard.writeText(document.getElementById('serverIp').textContent.trim()); alert('IP copiée !'); }
+        function copyIp() {
+            navigator.clipboard.writeText(document.getElementById('serverIp').textContent.trim());
+            alert('IP copiée !');
+        }
 
         function openPlayerModal(target) {
             document.getElementById('playerTarget').value = target;
@@ -780,7 +682,9 @@
             document.getElementById('eventModal').classList.add('active');
         }
 
-        function closeModals() { document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active')); }
+        function closeModals() {
+            document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
+        }
 
         function readImage(file) {
             return new Promise((resolve, reject) => {
@@ -797,34 +701,70 @@
             try {
                 const target = document.getElementById('playerTarget').value;
                 const image = await readImage(document.getElementById('skinPhoto').files[0]);
-                state[target].push({
+                const table = target === 'staff' ? 'staff' : 'joueurs';
+
+                const item = {
                     pseudo: document.getElementById('pseudo').value.trim() || 'Joueur',
                     role: document.getElementById('role').value.trim() || 'Membre',
-                    since: document.getElementById('since').value,
                     description: document.getElementById('description').value.trim(),
-                    responsibilities: document.getElementById('responsibilities').value.trim(),
-                    joined: document.getElementById('joined').value,
-                    image
-                });
-                persist(); renderAll(); closeModals();
-            } catch (e) { alert(e.message); }
+                    image_url: image || null,
+                    rejoint_le: document.getElementById('joined').value || null
+                };
+
+                if (target === 'staff') {
+                    item.depuis = document.getElementById('since').value || null;
+                    item.responsabilites = document.getElementById('responsibilities').value.trim();
+                }
+
+                const { error } = await supabaseClient
+                    .from(table)
+                    .insert([item]);
+
+                if (error) {
+                    console.error(error);
+                    alert('Erreur Supabase : ' + error.message);
+                    return;
+                }
+
+                await loadData();
+                closeModals();
+                alert('Ajout sauvegardé !');
+            } catch (e) {
+                alert(e.message);
+            }
         }
 
-        function saveEvent() {
-            state.events.push({
-                title: document.getElementById('eventTitle').value.trim() || 'Événement',
-                date: document.getElementById('eventDate').value,
-                status: document.getElementById('eventStatus').value,
-                desc: document.getElementById('eventDesc').value.trim()
-            });
-            persist(); renderAll(); closeModals();
+        async function saveEvent() {
+            const item = {
+                titre: document.getElementById('eventTitle').value.trim() || 'Événement',
+                date_event: document.getElementById('eventDate').value || null,
+                statut: document.getElementById('eventStatus').value,
+                description: document.getElementById('eventDesc').value.trim()
+            };
+
+            const { error } = await supabaseClient
+                .from('events')
+                .insert([item]);
+
+            if (error) {
+                console.error(error);
+                alert('Erreur Supabase : ' + error.message);
+                return;
+            }
+
+            await loadData();
+            closeModals();
+            alert('Événement sauvegardé !');
         }
 
         function renderPlayers(target, containerId, emptyId) {
             const container = document.getElementById(containerId), empty = document.getElementById(emptyId);
-            container.innerHTML = ''; empty.style.display = state[target].length ? 'none' : 'block';
+            container.innerHTML = '';
+            empty.style.display = state[target].length ? 'none' : 'block';
+
             state[target].forEach((p, index) => {
-                const card = document.createElement('div'); card.className = 'card';
+                const card = document.createElement('div');
+                card.className = 'card';
                 card.innerHTML = `${p.image ? `<img class="avatar" src="${p.image}" alt="Skin de ${escapeHtml(p.pseudo)}">` : `<div class="avatar"></div>`}<h3>${escapeHtml(p.pseudo)}</h3><div class="badge">${escapeHtml(p.role)}</div><p>${escapeHtml(p.description || 'Aucune description.')}</p>${p.responsibilities ? `<p><strong>Responsabilités :</strong><br>${escapeHtml(p.responsibilities)}</p>` : ''}${p.since ? `<div class="meta">Depuis : ${formatDate(p.since)}</div>` : ''}${p.joined ? `<div class="meta">A rejoint le : ${formatDate(p.joined)}</div>` : ''}<br><button class="mc-btn gray admin-only" onclick="deletePlayer('${target}', ${index})">Supprimer</button>`;
                 container.appendChild(card);
             });
@@ -832,23 +772,159 @@
 
         function renderEvents() {
             const container = document.getElementById('eventList'), empty = document.getElementById('eventEmpty');
-            container.innerHTML = ''; empty.style.display = state.events.length ? 'none' : 'block';
+            container.innerHTML = '';
+            empty.style.display = state.events.length ? 'none' : 'block';
+
             state.events.forEach((e, index) => {
-                const card = document.createElement('div'); card.className = 'card';
+                const card = document.createElement('div');
+                card.className = 'card';
                 card.innerHTML = `<div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">${statusLabel(e.status)}</div><h3>${escapeHtml(e.title)}</h3>${e.date ? `<div class="meta">${formatDate(e.date)}</div>` : ''}<p>${escapeHtml(e.desc || 'Aucune description.')}</p><button class="mc-btn admin-only" onclick="cycleEvent(${index})">Changer le statut</button><button class="mc-btn gray admin-only" onclick="deleteEvent(${index})">Supprimer</button>`;
                 container.appendChild(card);
             });
         }
 
-        function statusLabel(status) { return status === 'running' ? 'En cours' : status === 'ended' ? 'Terminé' : 'À venir'; }
-        function nextStatus(status) { return status === 'upcoming' ? 'running' : status === 'running' ? 'ended' : 'upcoming'; }
-        function cycleEvent(index) { state.events[index].status = nextStatus(state.events[index].status); persist(); renderAll(); }
-        function deleteEvent(index) { if (confirm('Supprimer cet événement ?')) { state.events.splice(index, 1); persist(); renderAll(); } }
-        function deletePlayer(target, index) { if (confirm('Supprimer cette fiche ?')) { state[target].splice(index, 1); persist(); renderAll(); } }
-        function formatDate(date) { if (!date) return ''; const [y, m, d] = date.split('-'); return `${d}/${m}/${y}`; }
-        function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c])); }
-        function renderAll() { renderPlayers('community', 'communityList', 'communityEmpty'); renderPlayers('staff', 'staffList', 'staffEmpty'); renderEvents(); }
-        renderAll();
+        function statusLabel(status) {
+            return status === 'running' ? 'En cours' : status === 'ended' ? 'Terminé' : 'À venir';
+        }
+
+        function nextStatus(status) {
+            return status === 'upcoming' ? 'running' : status === 'running' ? 'ended' : 'upcoming';
+        }
+
+        async function cycleEvent(index) {
+            const event = state.events[index];
+            if (!event || !event.id) return;
+
+            const newStatus = nextStatus(event.status);
+            const { error } = await supabaseClient
+                .from('events')
+                .update({ statut: newStatus })
+                .eq('id', event.id);
+
+            if (error) {
+                console.error(error);
+                alert('Erreur Supabase : ' + error.message);
+                return;
+            }
+
+            await loadData();
+        }
+
+        async function deleteEvent(index) {
+            const event = state.events[index];
+            if (!event || !event.id) return;
+            if (!confirm('Supprimer cet événement ?')) return;
+
+            const { error } = await supabaseClient
+                .from('events')
+                .delete()
+                .eq('id', event.id);
+
+            if (error) {
+                console.error(error);
+                alert('Erreur Supabase : ' + error.message);
+                return;
+            }
+
+            await loadData();
+        }
+
+        async function deletePlayer(target, index) {
+            const player = state[target][index];
+            if (!player || !player.id) return;
+            if (!confirm('Supprimer cette fiche ?')) return;
+
+            const table = target === 'staff' ? 'staff' : 'joueurs';
+            const { error } = await supabaseClient
+                .from(table)
+                .delete()
+                .eq('id', player.id);
+
+            if (error) {
+                console.error(error);
+                alert('Erreur Supabase : ' + error.message);
+                return;
+            }
+
+            await loadData();
+        }
+
+        function formatDate(date) {
+            if (!date) return '';
+            const [y, m, d] = date.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+        }
+
+        function renderAll() {
+            renderPlayers('community', 'communityList', 'communityEmpty');
+            renderPlayers('staff', 'staffList', 'staffEmpty');
+            renderEvents();
+        }
+
+        async function loadData() {
+            if (SUPABASE_URL.includes('COLLE_TON') || SUPABASE_KEY.includes('COLLE_TA')) {
+                alert('Il faut remplacer SUPABASE_URL et SUPABASE_KEY dans index.html.');
+                renderAll();
+                return;
+            }
+
+            const { data: staffData, error: staffError } = await supabaseClient
+                .from('staff')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            const { data: joueursData, error: joueursError } = await supabaseClient
+                .from('joueurs')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            const { data: eventsData, error: eventsError } = await supabaseClient
+                .from('events')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (staffError || joueursError || eventsError) {
+                console.error(staffError || joueursError || eventsError);
+                alert('Erreur de chargement Supabase. Vérifie tes tables et tes policies RLS.');
+                return;
+            }
+
+            state.staff = (staffData || []).map(p => ({
+                id: p.id,
+                pseudo: p.pseudo,
+                role: p.role,
+                since: p.depuis,
+                description: p.description,
+                responsibilities: p.responsabilites,
+                joined: p.rejoint_le,
+                image: p.image_url
+            }));
+
+            state.community = (joueursData || []).map(p => ({
+                id: p.id,
+                pseudo: p.pseudo,
+                role: p.role,
+                description: p.description,
+                joined: p.rejoint_le,
+                image: p.image_url
+            }));
+
+            state.events = (eventsData || []).map(e => ({
+                id: e.id,
+                title: e.titre,
+                date: e.date_event,
+                status: e.statut,
+                desc: e.description
+            }));
+
+            renderAll();
+        }
+
+        loadData();
     </script>
 </body>
 
