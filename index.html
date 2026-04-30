@@ -427,6 +427,14 @@
                 0 8px 0 rgba(0, 0, 0, .45);
         }
 
+        .staff-role.staff {
+            background: linear-gradient(#ff4d4d, #a30000);
+        }
+
+        .staff-role.administrateur {
+            background: linear-gradient(#ff4d4d, #a30000);
+        }
+        
         .staff-top {
             display: flex;
             align-items: center;
@@ -455,14 +463,10 @@
         }
 
         .staff-role {
-            display: inline-block;
-            padding: 7px 12px;
-            background: #5d35a5;
+            background: linear-gradient(#ff4d4d, #a30000);
             border: 2px solid #111;
             color: white;
-            font-size: 12px;
-            font-weight: 900;
-            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000;
         }
 
         .staff-desc {
@@ -640,7 +644,7 @@
             <button data-page="communaute">Communauté</button>
             <button data-page="equipe">Équipe</button>
             <button data-page="soutenir">Soutenir</button>
-            <button class="admin-toggle" id="adminToggle">Admin</button>
+            <button class="admin-toggle" id="adminToggle">STAFF</button>
         </nav>
     </header>
 
@@ -1072,7 +1076,7 @@
 
                         <div class="staff-name">
                             <h3>${escapeHtml(p.pseudo)}</h3>
-                            <span class="staff-role">${escapeHtml(p.role)}</span>
+                            <span class="staff-role ${p.role.toLowerCase()}">${escapeHtml(p.role)}</span>
                         </div>
                     </div>
 
