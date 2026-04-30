@@ -574,6 +574,12 @@
         .visual.soutenir {
             background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/soutenir.png");
         }
+
+        .player-description,
+        .staff-description,
+        .event-description {
+            white-space: pre-line;
+        }
         
         @media (max-width: 600px) {
             .staff-top {
@@ -888,13 +894,68 @@
             alert('IP copiée !');
         }
 
-        function openPlayerModal(target) {
-            document.getElementById('playerTarget').value = target;
-            document.getElementById('playerModalTitle').textContent = target === 'staff' ? "Ajouter un membre de l'équipe" : 'Ajouter un joueur';
-            ['pseudo', 'role', 'since', 'description', 'skinPhoto', 'responsibilities', 'joined'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('playerModal').classList.add('active');
-        }
+        <div class="modal-backdrop" id="playerModal">
+            <div class="modal">
+            <h2 id="playerModalTitle">Ajouter un joueur</h2>
+            <input type="hidden" id="playerTarget" />
 
+            <label>Pseudo :</label>
+            <input id="pseudo" maxlength="30" placeholder="Ex : Cupraz" />
+
+            <label>Rôle :</label>
+            <input id="role" maxlength="40" placeholder="Ex : Membre, Builder..." />
+
+            <label>Description (max 500 caractères) :</label>
+            <textarea id="description" maxlength="500"></textarea>
+
+            <label>Une photo (skin du joueur) :</label>
+            <input id="skinPhoto" type="file" accept="image/*" />
+            <div class="form-help">Limite : 5 Mo maximum.</div>
+
+            <label>Joue depuis :</label>
+            <input id="playSince" type="number" min="2009" max="2100" placeholder="Ex : 2024" />
+
+            <div class="button-row">
+                <button class="mc-btn" onclick="savePlayer()">Ajouter</button>
+                <button class="mc-btn gray" onclick="closeModals()">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal-backdrop" id="staffModal">
+            <div class="modal">
+            <h2 id="staffModalTitle">Ajouter un staff</h2>
+            <input type="hidden" id="staffTarget" />
+
+            <label>Pseudo :</label>
+            <input id="staffPseudo" maxlength="30" placeholder="Ex : Cupraz" />
+
+            <label>Rôle :</label>
+            <input id="staffRole" maxlength="40" placeholder="Ex : Fondateur, Modérateur..." />
+
+            <label>Depuis :</label>
+            <input id="staffSince" type="date" />
+
+            <label>Description (max 500 caractères) :</label>
+            <textarea id="staffDescription" maxlength="500"></textarea>
+
+            <label>Une photo (skin du joueur) :</label>
+            <input id="staffSkinPhoto" type="file" accept="image/*" />
+            <div class="form-help">Limite : 5 Mo maximum.</div>
+
+            <label>Responsabilités :</label>
+            <textarea id="staffResponsibilities" maxlength="500"></textarea>
+
+            <label>A rejoint le :</label>
+            <input id="staffJoined" type="date" />
+
+            <div class="button-row">
+                <button class="mc-btn" onclick="saveStaff()">Ajouter</button>
+                <button class="mc-btn gray" onclick="closeModals()">Annuler</button>
+            </div>
+        </div>
+    </div>
+        
         function openEventModal() {
             ['eventTitle', 'eventDate', 'eventDesc'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('eventStatus').value = 'upcoming';
