@@ -428,6 +428,100 @@
             font-family: Arial, sans-serif;
         }
 
+        .staff-card {
+            position: relative;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 22px;
+            background: linear-gradient(180deg, #2f2f2f, #191919);
+            border: 4px solid #555;
+            box-shadow:
+                inset 3px 3px 0 rgba(255,255,255,.10),
+                inset -3px -3px 0 rgba(0,0,0,.55),
+                0 8px 0 rgba(0,0,0,.45);
+        }
+
+        .staff-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .staff-avatar {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border: 4px solid #111;
+            background: #111;
+            image-rendering: pixelated;
+        }
+
+        .staff-name {
+            text-align: left;
+        }
+
+        .staff-name h3 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .staff-role {
+            display: inline-block;
+            padding: 7px 12px;
+            background: #5d35a5;
+            border: 2px solid #111;
+            color: white;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .staff-desc {
+            margin: 14px auto;
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .staff-resp-title {
+            margin-top: 14px;
+            color: white;
+            font-weight: 900;
+        }
+
+        .staff-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .staff-tag {
+            padding: 7px 10px;
+            background: #111;
+            border: 2px solid #555;
+            color: #8ee34a;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .staff-dates {
+            margin-top: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .staff-top {
+                flex-direction: column;
+        }
+
+        .staff-name {
+            text-align: center;
+        }
+    }
         @media (max-width: 820px) {
             .topbar {
                 height: auto;
@@ -764,10 +858,91 @@
             state[target].forEach((p, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `${p.image ? `<img class="avatar" src="${p.image}" alt="Skin de ${escapeHtml(p.pseudo)}">` : `<div class="avatar"></div>`}<h3>${escapeHtml(p.pseudo)}</h3><div class="badge">${escapeHtml(p.role)}</div><p>${escapeHtml(p.description || 'Aucune description.')}</p>${p.responsibilities ? `<p><strong>Responsabilités :</strong><br>${escapeHtml(p.responsibilities)}</p>` : ''}${p.since ? `<div class="meta">Depuis : ${formatDate(p.since)}</div>` : ''}${p.joined ? `<div class="meta">A rejoint le : ${formatDate(p.joined)}</div>` : ''}<br><button class="mc-btn gray admin-only" onclick="deletePlayer('${target}', ${index})">Supprimer</button>`;
-                container.appendChild(card);
-            });
+                // ================= STAFF =================
+if (target === "staff") {
+
+    // TAGS (responsabilités)
+    const tags = (p.responsibilities || "")
+        .split(/[,;\n]/)
+        .map(t => t.trim())
+        .filter(Boolean)
+        .map(t => `<span class="staff-tag">${escapeHtml(t)}</span>`)
+        .join("");
+
+    card.className = "staff-card";
+
+    card.innerHTML = `
+        <!-- TOP (image + pseudo) -->
+        <div class="staff-top">
+            ${p.image
+                ? `<img class="staff-avatar" src="${p.image}" alt="Skin de ${escapeHtml(p.pseudo)}">`
+                : `<div class="staff-avatar"></div>`
+            }
+
+            <div class="staff-name">
+                <h3>${escapeHtml(p.pseudo)}</h3>
+                <span class="staff-role">${escapeHtml(p.role)}</span>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <p class="staff-desc">
+            ${escapeHtml(p.description || 'Aucune description.')}
+        </p>
+
+        <!-- TAGS -->
+        ${tags ? `
+            <div class="staff-resp-title">Mon rôle :</div>
+            <div class="staff-tags">${tags}</div>
+        ` : ""}
+
+        <!-- DATES -->
+        <div class="staff-dates">
+            ${p.since ? `<div class="meta">Depuis : ${formatDate(p.since)}</div>` : ""}
+            ${p.joined ? `<div class="meta">A rejoint le : ${formatDate(p.joined)}</div>` : ""}
+        </div>
+
+        <br>
+
+        <!-- DELETE -->
+        <button class="mc-btn gray admin-only"
+            onclick="deletePlayer('${target}', ${index})">
+            Supprimer
+        </button>
+    `;
+
+// ================= AUTRES (joueurs) =================
+} else {
+
+    card.innerHTML = `
+        ${p.image
+            ? `<img class="avatar" src="${p.image}" alt="Skin de ${escapeHtml(p.pseudo)}">`
+            : `<div class="avatar"></div>`
         }
+
+        <h3>${escapeHtml(p.pseudo)}</h3>
+
+        <div class="badge">
+            ${escapeHtml(p.role)}
+        </div>
+
+        <p>
+            ${escapeHtml(p.description || 'Aucune description.')}
+        </p>
+
+        ${p.joined
+            ? `<div class="meta">A rejoint le : ${formatDate(p.joined)}</div>`
+            : ""
+        }
+
+        <br>
+
+        <button class="mc-btn gray admin-only"
+            onclick="deletePlayer('${target}', ${index})">
+            Supprimer
+        </button>
+    `;
+}
 
         function renderEvents() {
             const container = document.getElementById('eventList'), empty = document.getElementById('eventEmpty');
