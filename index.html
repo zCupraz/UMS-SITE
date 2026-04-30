@@ -2,6 +2,7 @@
 <html lang="fr">
 
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UN MONDE SURVIE</title>
@@ -30,18 +31,34 @@
             margin: 0;
             background: #151515;
             color: white;
-            font-family: "Courier New", monospace;
+            font-family: "Pixelify Sans", Arial, sans-serif;
             image-rendering: pixelated;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 4px);
-            z-index: 99;
-            opacity: .5;
+        h1,
+        h2,
+        h3,
+        .nav button,
+        .mc-btn,
+        .ip-box,
+        .badge,
+        .meta,
+        .event-status,
+        .staff-role,
+        .staff-tag {
+            font-family: "Pixelify Sans", Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        p,
+        label,
+        input,
+        textarea,
+        select,
+        .footer {
+            font-family: "Pixelify Sans", Arial, sans-serif;
+            font-weight: 500;
         }
 
         .topbar {
@@ -128,8 +145,8 @@
             overflow: hidden;
             padding: 80px 20px 110px;
             background:
-                linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .78)),
-                url("assets/accueil.png") center/cover;
+                linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)),
+                url("assets/accueil.png") center/cover no-repeat;
         }
 
         .hero::before {
@@ -565,30 +582,26 @@
             text-shadow: 2px 2px 0 #000;
         }
 
-        .visual.accueil {
-            background-image: url("assets/accueil.png");
-        }
-
         .visual.guide {
-            background-image: url("assets/guide.png");
+            background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/guide.png");
         }
 
         .visual.evenements {
-            background-image: url("assets/evenements.png");
+            background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/evenements.png");
         }
 
         .visual.communaute {
-            background-image: url("assets/communaute.png");
+            background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/communaute.png");
         }
 
         .visual.equipe {
-            background-image: url("assets/equipe.png");
+            background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/equipe.png");
         }
 
         .visual.soutenir {
-            background-image: url("assets/soutenir.png");
+            background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)), url("assets/soutenir.png");
         }
-
+        
         @media (max-width: 600px) {
             .staff-top {
                 flex-direction: column;
