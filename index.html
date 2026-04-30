@@ -982,14 +982,28 @@
     }
 
         function renderEvents() {
-            const container = document.getElementById('eventList'), empty = document.getElementById('eventEmpty');
+            const container = document.getElementById('eventList');
+            const empty = document.getElementById('eventEmpty');
+
             container.innerHTML = '';
+            empty.innerHTML = 'Aucun événement présent.';
             empty.style.display = state.events.length ? 'none' : 'block';
 
             state.events.forEach((e, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `<div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">${statusLabel(e.status)}</div><h3>${escapeHtml(e.title)}</h3>${e.date ? `<div class="meta">${formatDate(e.date)}</div>` : ''}<p>${escapeHtml(e.desc || 'Aucune description.')}</p><button class="mc-btn admin-only" onclick="cycleEvent(${index})">Changer le statut</button><button class="mc-btn gray admin-only" onclick="deleteEvent(${index})">Supprimer</button>`;
+
+                card.innerHTML = `
+                    <div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">
+                        ${statusLabel(e.status)}
+                    </div>
+                    <h3>${escapeHtml(e.title)}</h3>
+                    ${e.date ? `<div class="meta">${formatDate(e.date)}</div>` : ''}
+                    <p>${escapeHtml(e.desc || 'Aucune description.')}</p>
+                    <button class="mc-btn admin-only" onclick="cycleEvent(${index})">Changer le statut</button>
+                    <button class="mc-btn gray admin-only" onclick="deleteEvent(${index})">Supprimer</button>
+                `;
+
                 container.appendChild(card);
             });
         }
