@@ -645,23 +645,35 @@
 
     <main>
         <section id="accueil" class="page active">
-            <div class="visual accueil"></div>
-            <div class="hero">
-                <div class="hero-inner">
-                    <img class="mascot" src="" alt="Mascotte" onerror="this.style.display='none'">
-                    <h1>UN MONDE SURVIE</h1>
-                    <p>Un serveur Minecraft survie communautaire où chaque bloc raconte une histoire. Rejoignez une
-                        communauté chill, familiale et construisez votre légende.</p>
-                    <div class="button-row">
-                        <a class="mc-btn" href="https://discord.gg/TON-LIEN" target="_blank">Rejoindre l'aventure</a>
-                        <button class="mc-btn gray" onclick="goToPage('guide')">Comment jouer</button>
-                    </div>
-                    <div class="ip-box" onclick="copyIp()">
-                        IP: <span id="serverIp">play.unmondesurvie.fr</span>
-                        <small>Version 1.21.x • clique pour copier</small>
-                    </div>
+            <div class="visual accueil">
+            <div class="visual-inner">
+
+                <img class="mascot" src="" alt="Mascotte" onerror="this.style.display='none'">
+
+                <h1>UN MONDE SURVIE</h1>
+
+                <p>
+                    Un serveur Minecraft survie communautaire où chaque bloc raconte une histoire.
+                    Rejoignez une communauté chill, familiale et construisez votre légende.
+                </p>
+
+                <div class="button-row">
+                    <a class="mc-btn" href="https://discord.gg/TON-LIEN" target="_blank">
+                        Rejoindre l'aventure
+                    </a>
+
+                    <button class="mc-btn gray" onclick="goToPage('guide')">
+                        Comment jouer
+                    </button>
                 </div>
+
+                <div class="ip-box" onclick="copyIp()">
+                    IP: <span id="serverIp">play.unmondesurvie.fr</span>
+                    <small>Version 1.21.x • clique pour copier</small>
+                </div>
+
             </div>
+        </div>
 
             <div class="section" style="min-height:auto;">
                 <h2>Pourquoi nous rejoindre ?</h2>
