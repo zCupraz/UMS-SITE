@@ -930,17 +930,21 @@
             });
 
 
-            function copyIp(el) {
+            function copyIp() {
                 const ip = document.getElementById("serverIp").innerText;
 
-                navigator.clipboard.writeText(ip).then(() => {
-                    const old = el.innerHTML;
-                    el.innerHTML = "✔️ Copié !";
+                const tempInput = document.createElement("textarea");
+                tempInput.value = ip;
+                document.body.appendChild(tempInput);
 
-                    setTimeout(() => {
-                        el.innerHTML = old;
-                    }, 1500);
-                });
+                tempInput.select();
+                tempInput.setSelectionRange(0, 99999);
+
+                document.execCommand("copy");
+
+                document.body.removeChild(tempInput);
+
+                alert("IP copiée : " + ip);
             }
 
             function openPlayerModal(target) {
