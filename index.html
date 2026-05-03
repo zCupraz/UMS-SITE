@@ -674,7 +674,7 @@
                             </button>
                         </div>
 
-                        <div class="ip-box" onclick="copyIp()">
+                        <div class="ip-box" onclick="copyIp(this)">
                             <span id="serverIp">ᴘʟᴀʏ ▪ ᴜɴᴍᴏɴᴅᴇꜱᴜʀᴠɪᴇ ▪ ꜰʀ</span>
                         </div>
                     </div>
@@ -929,12 +929,19 @@
                 } else if (code !== null) alert('Code incorrect.');
             });
 
-            function copyIp() {
-                navigator.clipboard.writeText(document.getElementById('serverIp').textContent.trim());
-                alert('IP copiée !');
+
+            function copyIp(el) {
+                const ip = document.getElementById("serverIp").innerText;
+
+                navigator.clipboard.writeText(ip).then(() => {
+                    const old = el.innerHTML;
+                    el.innerHTML = "✔️ Copié !";
+
+                    setTimeout(() => {
+                        el.innerHTML = old;
+                    }, 1500);
+                });
             }
-
-
 
             function openPlayerModal(target) {
                 document.getElementById('playerTarget').value = target || 'community';
