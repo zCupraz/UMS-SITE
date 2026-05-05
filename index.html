@@ -1827,35 +1827,53 @@ body { cursor: none; }
         </script>
 
 <script>
-const cursor = document.createElement("div");
-cursor.classList.add("custom-cursor");
-document.body.appendChild(cursor);
+window.addEventListener("load", () => {
 
-const trails = [];
-for (let i = 0; i < 10; i++) {
-    const t = document.createElement("div");
-    t.classList.add("cursor-trail");
-    document.body.appendChild(t);
-    trails.push({el:t,x:0,y:0});
-}
+    const cursor = document.createElement("div");
+    cursor.style.position = "fixed";
+    cursor.style.width = "32px";
+    cursor.style.height = "32px";
+    cursor.style.background = "url('assets/cursor.png') no-repeat center";
+    cursor.style.backgroundSize = "contain";
+    cursor.style.pointerEvents = "none";
+    cursor.style.zIndex = "99999";
+    cursor.style.transform = "translate(-50%, -50%)";
+    document.body.appendChild(cursor);
 
-let mx=0,my=0;
-document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+    const trails = [];
+    for (let i = 0; i < 10; i++) {
+        const t = document.createElement("div");
+        t.style.position = "fixed";
+        t.style.width = "6px";
+        t.style.height = "6px";
+        t.style.background = "#9b5cff";
+        t.style.borderRadius = "50%";
+        t.style.pointerEvents = "none";
+        t.style.opacity = "0.6";
+        t.style.filter = "blur(2px)";
+        document.body.appendChild(t);
+        trails.push({el:t,x:0,y:0});
+    }
 
-function anim(){
-    cursor.style.left=mx+"px";
-    cursor.style.top=my+"px";
-    let x=mx,y=my;
-    trails.forEach(tr=>{
-        tr.x+=(x-tr.x)*0.3;
-        tr.y+=(y-tr.y)*0.3;
-        tr.el.style.left=tr.x+"px";
-        tr.el.style.top=tr.y+"px";
-        x=tr.x;y=tr.y;
-    });
-    requestAnimationFrame(anim);
-}
-anim();
+    let mx=0,my=0;
+    document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+
+    function anim(){
+        cursor.style.left=mx+"px";
+        cursor.style.top=my+"px";
+        let x=mx,y=my;
+        trails.forEach(tr=>{
+            tr.x+=(x-tr.x)*0.3;
+            tr.y+=(y-tr.y)*0.3;
+            tr.el.style.left=tr.x+"px";
+            tr.el.style.top=tr.y+"px";
+            x=tr.x;y=tr.y;
+        });
+        requestAnimationFrame(anim);
+    }
+    anim();
+});
+</script>
 </script>
 
 </body>
