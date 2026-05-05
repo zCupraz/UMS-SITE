@@ -1073,16 +1073,45 @@
             }
 
             function renderPlayers(target, containerId, emptyId) {
-
                 const container = document.getElementById(containerId);
                 const empty = document.getElementById(emptyId);
 
                 container.innerHTML = "";
-                empty.style.display = state[target].length ? "none" : "block";
+
+                if (!state[target] || state[target].length === 0) {
+                    empty.style.display = "block";
+                    return;
+                }
+
+                empty.style.display = "none";
 
                 state[target].forEach((p, index) => {
-
                     const card = document.createElement("div");
+                    card.className = "player-card";
+
+                    card.innerHTML = `
+                        <img class="player-skin" src="${p.skin || ''}" alt="${p.pseudo || 'Joueur'}">
+
+                        <div class="player-info">
+                            <h3>${p.pseudo || 'Pseudo inconnu'}</h3>
+                            <p><strong>Gameplay :</strong> ${p.gameplay || 'Non renseigné'}</p>
+                            <p>${p.description || 'Aucune description.'}</p>
+                        </div>
+
+                        <div class="player-actions">
+                            <button onclick="editPlayer('${target}', ${index})">
+                                Modifier
+                            </button>
+
+                            <button onclick="deletePlayer('${target}', ${index})">
+                                Supprimer
+                            </button>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
+            }
 
                     // ================= STAFF =================
                     if (target === "staff") {
@@ -1167,7 +1196,7 @@
                     container.appendChild(card);
                 });
             }
-
+            
             function renderEvents() {
                 const container = document.getElementById('eventList');
                 const empty = document.getElementById('eventEmpty');
@@ -1247,6 +1276,7 @@
                 if (!confirm('Supprimer cette fiche ?')) return;
 
                 const table = target === 'staff' ? 'staff' : 'joueurs';
+
                 const { error } = await supabaseClient
                     .from(table)
                     .delete()
@@ -1257,6 +1287,15 @@
                     alert('Erreur Supabase : ' + error.message);
                     return;
                 }
+
+                state[target].splice(index, 1);
+
+                 renderPlayers(
+                    target,
+                    target === "staff" ? "staffList" : "playersList",
+                    target === "staff" ? "emptyStaff" : "emptyPlayers"
+                );
+            }
 
                 await loadData();
             }
