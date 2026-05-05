@@ -1086,33 +1086,32 @@
                 empty.style.display = "none";
 
                 state[target].forEach((p, index) => {
-                    const card = document.createElement("div");
-                    card.className = "player-card";
+                const card = document.createElement("div");
+                card.className = "player-card";
 
-                    card.innerHTML = `
-                        <img class="player-skin" src="${p.skin || ''}" alt="${p.pseudo || 'Joueur'}">
+                card.innerHTML = `
+                    <img class="player-skin" src="${p.skin || ''}" alt="${p.pseudo || 'Joueur'}">
 
-                        <div class="player-info">
-                            <h3>${p.pseudo || 'Pseudo inconnu'}</h3>
-                            <p><strong>Gameplay :</strong> ${p.gameplay || 'Non renseigné'}</p>
-                            <p>${p.description || 'Aucune description.'}</p>
-                        </div>
+                    <div class="player-info">
+                        <h3>${p.pseudo || 'Pseudo inconnu'}</h3>
+                        <p><strong>Gameplay :</strong> ${p.gameplay || 'Non renseigné'}</p>
+                        <p>${p.description || 'Aucune description.'}</p>
+                    </div>
 
-                        <div class="player-actions">
-                            <button onclick="editPlayer('${target}', ${index})">
-                                Modifier
-                            </button>
+                    <div class="player-actions">
+                        <button type="button" onclick="editPlayer('${target}', ${index})">
+                            Modifier
+                        </button>
 
-                            <button onclick="deletePlayer('${target}', ${index})">
-                                Supprimer
-                            </button>
-                        </div>
-                    `;
+                        <button type="button" onclick="deletePlayer('${target}', ${index})">
+                            Supprimer
+                        </button>
+                    </div>
+                `;
 
-                    container.appendChild(card);
-                });
-            }
-
+                container.appendChild(card);
+            });
+                
                     // ================= STAFF =================
                     if (target === "staff") {
 
