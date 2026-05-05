@@ -127,43 +127,43 @@
             color: #ad0000 !important;
         }
 
-        .page {
+        page {
             display: none;
         }
 
-        .page.active {
+        pageactive {
             display: block;
         }
 
-        .mascot {
+        mascot {
             width: 104px;
             height: 104px;
             object-fit: contain;
             image-rendering: pixelated;
             margin-bottom: 8px;
-            filter: drop-shadow(0 0 22px rgba(255, 216, 98, .45));
+            filter: drop-shadow(0 0 22px rgba(255, 216, 98, 45));
         }
 
-        .hero h1 {
+        hero h1 {
             margin: 0;
             font-size: clamp(38px, 7vw, 72px);
             letter-spacing: 5px;
             text-transform: uppercase;
             line-height: 1;
             color: white;
-            text-shadow: 5px 5px 0 #1b1b1b, 8px 8px 0 rgba(0, 0, 0, .45);
+            text-shadow: 5px 5px 0 #1b1b1b, 8px 8px 0 rgba(0, 0, 0, 45);
         }
 
-        .hero p {
+        hero p {
             width: min(650px, 100%);
             margin: 20px auto 28px;
             font-family: Arial, sans-serif;
             font-size: 17px;
-            line-height: 1.55;
+            line-height: 155;
             text-shadow: 2px 2px 0 #000;
         }
 
-        .button-row {
+        button-row {
             display: flex;
             justify-content: center;
             gap: 14px;
@@ -586,7 +586,61 @@
             white-space: pre-line;
         }
 
+        /* =========================
+           CURSEUR UMS (Enderman style)
+           ========================= */
 
+        body {
+            cursor: none;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 42px;
+            height: 42px;
+            pointer-events: none;
+            z-index: 999999;
+            transform: translate(-50%, -50%);
+            background: url("assets/cursor.png") no-repeat center;
+            background-size: contain;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999998;
+            animation: trailFade .6s linear forwards;
+        }
+
+        /* couleurs Enderman */
+        .cursor-trail:nth-child(3n) {
+            background: #9b5cff; /* violet */
+            box-shadow: 0 0 12px #9b5cff;
+        }
+
+        .cursor-trail:nth-child(3n+1) {
+            background: #ffffff; /* blanc */
+            box-shadow: 0 0 8px #ffffff;
+        }
+
+        .cursor-trail:nth-child(3n+2) {
+            background: #000000; /* noir */
+            box-shadow: 0 0 10px #000000;
+        }  
+
+        @keyframes trailFade {
+            from {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
 
         /* =========================
            UMS V2 - ANIMATIONS MINECRAFT
@@ -1697,6 +1751,30 @@
 
             loadData();
         </script>
+
+        <script>
+    /* =========================
+       CURSEUR UMS JS
+       ========================= */
+
+        const cursor = document.createElement("div");
+        cursor.classList.add("custom-cursor");
+        document.body.appendChild(cursor);
+
+        document.addEventListener("mousemove", (e) => {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
+
+            const trail = document.createElement("div");
+            trail.className = "cursor-trail";
+            trail.style.left = e.clientX + "px";
+            trail.style.top = e.clientY + "px";
+            document.body.appendChild(trail);
+
+            setTimeout(() => trail.remove(), 600);
+        });
+        </script>
+        
 </body>
 
 </html>
