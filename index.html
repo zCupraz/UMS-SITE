@@ -1581,7 +1581,7 @@
 
                 <label>Image(s) :</label>
                 <input id="buildImages" type="file" accept="image/*" multiple />
-                <div class="form-help" id="buildImagesHelp">Tu peux sélectionner jusqu'à 5 images maximum pour un même build. Limite : 5 Mo par image.</div>
+                <div class="form-help" id="buildImagesHelp">Tu peux sélectionner jusqu'à 3 images maximum pour un même build. Limite : 5 Mo par image.</div>
 
                 <label>Thème :</label>
                 <input id="buildTheme" maxlength="80" placeholder="Ex : Dark Fantasy, Médiéval, Spawn, Base, Ville..." />
@@ -1810,8 +1810,8 @@
                 const selectedFiles = Array.from(files || []);
                 if (!selectedFiles.length) return [];
 
-                if (selectedFiles.length > 5) {
-                    throw new Error('Tu peux ajouter 5 images maximum par build.');
+                if (selectedFiles.length > 3) {
+                    throw new Error('Tu peux ajouter 3 images maximum par build.');
                 }
 
                 const images = [];
@@ -1966,7 +1966,7 @@
                     const finalImages = existingBuild ? existingImages.concat(newImages) : newImages;
 
                     if (finalImages.length > 5) {
-                        alert('Un build peut contenir 5 images maximum. Supprime ce build puis recrée-le si tu veux changer entièrement les images.');
+                        alert('Un build peut contenir 3 images maximum. Supprime ce build puis recrée-le si tu veux changer entièrement les images.');
                         return;
                     }
 
