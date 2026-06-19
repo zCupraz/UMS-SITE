@@ -1628,6 +1628,61 @@
 
             const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+            async function checkAdmin() {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+
+                if (!user) {
+                    document.body.classList.remove('admin');
+                    return false;
+                }
+
+                const { data, error } = await supabaseClient
+                    .from('admins')
+                    .select('user_id')
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+
+                if (error || !data) {
+                    document.body.classList.remove('admin');
+                    return false;
+                }
+
+                document.body.classList.add('admin');
+                return true;
+            }
+
+            async function loginAdmin() {
+                const email = prompt("Email admin :");
+                if (!email) return;
+
+                const password = prompt("Mot de passe admin :");
+                if (!password) return;
+
+                const { error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) {
+                    alert("Connexion refusée.");
+                    return;
+                }
+
+                const ok = await checkAdmin();
+
+                if (ok) {
+                    alert("Mode staff activé.");
+                } else {
+                    alert("Compte connecté, mais pas autorisé admin.");
+                }
+            }
+
+            async function logoutAdmin() {
+                await supabaseClient.auth.signOut();
+                document.body.classList.remove('admin');
+                alert("Déconnecté du mode staff.");
+            }
+            
             const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
             let state = {
@@ -2427,6 +2482,27 @@
             }
 
             loadData();
+
+            document.getElementById("adminToggle").addEventListener("click", async () => {
+                const isAdmin = await checkAdmin();
+
+                if (isAdmin) {
+                    const confirmLogout = confirm(
+                        "Tu es déjà connecté en staff. Veux-tu te déconnecter ?"
+                    );
+
+                    if (confirmLogout) {
+                        await logoutAdmin();
+                    }
+
+                    return;
+                }
+
+                await loginAdmin();
+            });
+
+            checkAdmin();
+            
         </script>
 </body>
 
