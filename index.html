@@ -779,12 +779,63 @@
         }
 
         .build-creator {
-            margin: 0 auto 10px !important;
-            color: #fff !important;
+            margin: 4px auto 8px !important;
+            color: #ffffff !important;
             font-family: "Orbitron", Arial, sans-serif !important;
-            font-size: 16px !important;
-            font-weight: 700;
+            font-size: clamp(16px, 2vw, 20px) !important;
+            font-weight: 900;
+            letter-spacing: 1px;
             text-align: center;
+            text-transform: uppercase;
+            text-shadow:
+                2px 2px 0 #000,
+                0 0 14px rgba(155, 92, 255, .70);
+        }
+
+        .build-creator::before {
+            content: "CONSTRUIT PAR ";
+            color: #bda0ff;
+            font-size: .72em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .build-theme {
+            display: block;
+            margin: 0 auto 4px;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            color: #bcbcbc;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 400;
+            text-transform: none;
+            text-shadow: none;
+        }
+
+        .build-theme::before {
+            content: "Thème : ";
+            color: #8f8f8f;
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        .build-more {
+            display: inline-block;
+            margin: -6px auto 16px;
+            color: #bda0ff;
+            font-family: "Orbitron", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000, 0 0 10px rgba(155, 92, 255, .55);
+        }
+
+        .build-more:hover {
+            color: #ffffff;
         }
 
         .build-image-count {
@@ -800,18 +851,6 @@
             text-shadow: 1px 1px 0 #000;
         }
 
-        .build-theme {
-            display: inline-block;
-            margin: 0 auto 10px;
-            padding: 6px 10px;
-            background: #5d35a5;
-            border: 2px solid #111;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 0 #000;
-        }
 
         .build-gallery {
             display: grid;
@@ -2111,6 +2150,11 @@
                         ${images[0]
                             ? `<img class="build-preview" src="${images[0]}" alt="${escapeHtml(build.name || 'Build')}">`
                             : `<div class="build-preview"></div>`
+                        }
+
+                        ${images.length > 1
+                            ? `<div class="build-more">Voir les ${images.length} photos →</div>`
+                            : ''
                         }
 
                         <p class="build-creator">
