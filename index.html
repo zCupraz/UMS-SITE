@@ -746,20 +746,45 @@
            BUILDS - GALERIE
            ========================= */
 
+        #buildList {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
         .build-card {
+            width: 100%;
+            min-height: 0;
             cursor: pointer;
-            min-height: 280px;
+            padding: clamp(18px, 3vw, 28px);
+        }
+
+        .build-card h3 {
+            margin: 0 0 20px;
+            font-size: clamp(20px, 3vw, 30px);
+            color: #fff;
+            text-align: center;
         }
 
         .build-preview {
             width: 100%;
-            height: 170px;
-            object-fit: cover;
+            height: auto;
+            max-height: none;
+            object-fit: contain;
             display: block;
-            margin: 0 auto 14px;
+            margin: 0 auto 20px;
             border: 3px solid #111;
             background: #111;
             image-rendering: auto;
+        }
+
+        .build-creator {
+            margin: 0 auto 10px !important;
+            color: #fff !important;
+            font-family: "Orbitron", Arial, sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 700;
+            text-align: center;
         }
 
         .build-image-count {
@@ -795,10 +820,14 @@
             margin-top: 18px;
         }
 
+        .build-gallery {
+            grid-template-columns: 1fr;
+        }
+
         .build-gallery img {
             width: 100%;
-            height: 160px;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             border: 3px solid #111;
             background: #111;
             image-rendering: auto;
@@ -2028,7 +2057,7 @@
                     const item = {
                         nom: document.getElementById('buildName').value.trim() || 'Build sans nom',
                         pseudo: document.getElementById('buildPseudo').value.trim() || 'Joueur inconnu',
-                        theme: document.getElementById('buildTheme').value.trim() || 'Sans thème',
+                        theme: document.getElementById('buildTheme').value.trim(),
                         images: finalImages
                     };
 
@@ -2077,32 +2106,31 @@
                     card.onclick = () => openBuildView(index);
 
                     card.innerHTML = `
+                        <h3>${escapeHtml(build.name || 'Build sans nom')}</h3>
+
                         ${images[0]
-                            ? `<img class="build-preview" src="${images[0]}" alt="${escapeHtml(build.name || build.theme || 'Build')}">`
+                            ? `<img class="build-preview" src="${images[0]}" alt="${escapeHtml(build.name || 'Build')}">`
                             : `<div class="build-preview"></div>`
                         }
 
-                        <div class="build-image-count">
-                            ${images.length} photo${images.length > 1 ? 's' : ''}
-                        </div>
-
-                        <h3>${escapeHtml(build.name || 'Build sans nom')}</h3>
-
-                        <div class="build-theme">
-                            ${escapeHtml(build.theme || 'Sans thème')}
-                        </div>
-
-                        <p>
+                        <p class="build-creator">
                             ${escapeHtml(build.pseudo || 'Joueur inconnu')}
                         </p>
 
-                        <button class="mc-btn admin-only" type="button" onclick="event.stopPropagation(); editBuild(${index});">
-                            Modifier
-                        </button>
+                        ${build.theme && build.theme.trim()
+                            ? `<div class="build-theme">${escapeHtml(build.theme)}</div>`
+                            : ''
+                        }
 
-                        <button class="mc-btn gray admin-only" type="button" onclick="event.stopPropagation(); deleteBuild(${index});">
-                            Supprimer
-                        </button>
+                        <div class="button-row admin-only">
+                            <button class="mc-btn" type="button" onclick="event.stopPropagation(); editBuild(${index});">
+                                Modifier
+                            </button>
+
+                            <button class="mc-btn gray" type="button" onclick="event.stopPropagation(); deleteBuild(${index});">
+                                Supprimer
+                            </button>
+                        </div>
                     `;
 
                     container.appendChild(card);
@@ -2117,7 +2145,15 @@
                 const gallery = document.getElementById('buildViewGallery');
 
                 document.getElementById('buildViewTitle').textContent = build.name || 'Build sans nom';
-                document.getElementById('buildViewTheme').innerHTML = `<strong>Thème :</strong> ${escapeHtml(build.theme || 'Sans thème')}`;
+                const viewTheme = document.getElementById('buildViewTheme');
+
+                if (build.theme && build.theme.trim()) {
+                    viewTheme.innerHTML = `<strong>Thème :</strong> ${escapeHtml(build.theme)}`;
+                    viewTheme.style.display = '';
+                } else {
+                    viewTheme.innerHTML = '';
+                    viewTheme.style.display = 'none';
+                }
                 document.getElementById('buildViewPlayers').innerHTML = `<strong>Joueur(s) :</strong> ${escapeHtml(build.pseudo || 'Joueur inconnu')}`;
 
                 gallery.innerHTML = images.map((img, imgIndex) => `
