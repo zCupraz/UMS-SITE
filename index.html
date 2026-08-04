@@ -351,8 +351,28 @@
             gap: 12px;
         }
 
+        .event-status-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .event-status-title,
+        .event-information-title {
+            margin: 0;
+            color: #a9a9a9;
+            font-family: "Orbitron", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000;
+        }
+
         .event-card .event-status {
-            margin: 0 0 2px;
+            margin: 0;
             padding: 8px 14px;
             font-size: 13px;
             letter-spacing: 1.2px;
@@ -362,17 +382,6 @@
             margin: 0;
             font-size: clamp(22px, 3vw, 32px);
             letter-spacing: 2px;
-        }
-
-        .event-date {
-            margin: 2px 0 4px;
-            color: #d6d6d6;
-            font-family: "Orbitron", Arial, sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: .8px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 0 #000;
         }
 
         .event-card .event-description {
@@ -1691,14 +1700,13 @@
         <div class="modal-backdrop" id="eventModal">
             <div class="modal">
                 <h2>Ajouter un événement</h2>
-                <label>Titre :</label><input id="eventTitle" maxlength="60" />
-                <label>Date :</label><input id="eventDate" type="date" />
+                <label>Nom de l'événement :</label><input id="eventTitle" maxlength="60" />
                 <label>Statut :</label><select id="eventStatus">
                     <option value="upcoming">À venir</option>
                     <option value="running">En cours</option>
                     <option value="ended">Terminé</option>
                 </select>
-                <label>Description :</label><textarea id="eventDesc" maxlength="500"></textarea>
+                <label>Informations :</label><textarea id="eventDesc" maxlength="500"></textarea>
                 <div class="button-row"><button class="mc-btn" onclick="saveEvent()">Ajouter</button><button
                         class="mc-btn gray" onclick="closeModals()">Annuler</button></div>
             </div>
@@ -1936,7 +1944,7 @@
             }
 
             function openEventModal() {
-                ['eventTitle', 'eventDate', 'eventDesc'].forEach(id => document.getElementById(id).value = '');
+                ['eventTitle', 'eventDesc'].forEach(id => document.getElementById(id).value = '');
                 document.getElementById('eventStatus').value = 'upcoming';
                 document.getElementById('eventModal').classList.add('active');
             }
@@ -2108,7 +2116,6 @@
             async function saveEvent() {
                 const item = {
                     titre: document.getElementById('eventTitle').value.trim() || 'Événement',
-                    date_event: document.getElementById('eventDate').value || null,
                     statut: document.getElementById('eventStatus').value,
                     description: document.getElementById('eventDesc').value.trim()
                 };
@@ -2430,15 +2437,17 @@
                     card.className = 'card event-card';
 
                     card.innerHTML = `
-                        <div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">
-                            ${statusLabel(e.status)}
+                        <div class="event-status-block">
+                            <div class="event-status-title">Statut de l'événement</div>
+                            <div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">
+                                ${statusLabel(e.status)}
+                            </div>
                         </div>
 
                         <h3>${escapeHtml(e.title)}</h3>
 
-                        ${e.date ? `<div class="event-date">${formatDate(e.date)}</div>` : ''}
-
-                        <p class="event-description">${escapeHtml(e.desc || 'Aucune description.')}</p>
+                        <div class="event-information-title">Informations</div>
+                        <p class="event-description">${escapeHtml(e.desc || 'Aucune information.')}</p>
 
                         <div class="event-actions admin-only">
                             <button class="mc-btn" onclick="cycleEvent(${index})">Changer le statut</button>
@@ -2610,7 +2619,6 @@
                     state.events = (eventsData || []).map(e => ({
                         id: e.id,
                         title: e.titre,
-                        date: e.date_event,
                         status: e.statut,
                         desc: e.description
                     }));
