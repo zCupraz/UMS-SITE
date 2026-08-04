@@ -334,6 +334,65 @@
             background: #9b2d2d;
         }
 
+        /* =========================
+           ÉVÉNEMENTS
+           ========================= */
+        #eventList {
+            grid-template-columns: 1fr;
+        }
+
+        .event-card {
+            width: 100%;
+            min-height: 0;
+            padding: clamp(24px, 4vw, 38px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .event-card .event-status {
+            margin: 0 0 2px;
+            padding: 8px 14px;
+            font-size: 13px;
+            letter-spacing: 1.2px;
+        }
+
+        .event-card h3 {
+            margin: 0;
+            font-size: clamp(22px, 3vw, 32px);
+            letter-spacing: 2px;
+        }
+
+        .event-date {
+            margin: 2px 0 4px;
+            color: #d6d6d6;
+            font-family: "Orbitron", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .event-card .event-description {
+            width: min(760px, 100%);
+            margin: 4px auto 8px;
+            color: #e2e2e2;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .event-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
         .empty-box {
             width: min(680px, 100%);
             margin: 24px auto 0;
@@ -2368,18 +2427,24 @@
 
                 state.events.forEach((e, index) => {
                     const card = document.createElement('div');
-                    card.className = 'card';
+                    card.className = 'card event-card';
 
                     card.innerHTML = `
-                    <div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">
-                        ${statusLabel(e.status)}
-                    </div>
-                    <h3>${escapeHtml(e.title)}</h3>
-                    ${e.date ? `<div class="meta">${formatDate(e.date)}</div>` : ''}
-                    <p class="event-description">${escapeHtml(e.desc || 'Aucune description.')}</p>
-                    <button class="mc-btn admin-only" onclick="cycleEvent(${index})">Changer le statut</button>
-                    <button class="mc-btn gray admin-only" onclick="deleteEvent(${index})">Supprimer</button>
-                `;
+                        <div class="event-status status-${e.status === 'upcoming' ? 'upcoming' : e.status === 'running' ? 'running' : 'ended'}">
+                            ${statusLabel(e.status)}
+                        </div>
+
+                        <h3>${escapeHtml(e.title)}</h3>
+
+                        ${e.date ? `<div class="event-date">${formatDate(e.date)}</div>` : ''}
+
+                        <p class="event-description">${escapeHtml(e.desc || 'Aucune description.')}</p>
+
+                        <div class="event-actions admin-only">
+                            <button class="mc-btn" onclick="cycleEvent(${index})">Changer le statut</button>
+                            <button class="mc-btn gray" onclick="deleteEvent(${index})">Supprimer</button>
+                        </div>
+                    `;
 
                     container.appendChild(card);
                 });
@@ -2454,8 +2519,15 @@
 
             function formatDate(date) {
                 if (!date) return '';
-                const [y, m, d] = date.split('-');
-                return `${d}/${m}/${y}`;
+
+                const [year, month, day] = date.split('-').map(Number);
+                const parsedDate = new Date(year, month - 1, day);
+
+                return new Intl.DateTimeFormat('fr-FR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                }).format(parsedDate);
             }
 
             function formatYear(date) {
