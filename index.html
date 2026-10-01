@@ -1668,12 +1668,9 @@
                 <input type="hidden" id="playerTarget" />
 
                 <label>Pseudo :</label><input id="pseudo" maxlength="30" placeholder="Ex : Cupraz" />
-                <label>Rôle :</label><input id="role" maxlength="40" placeholder="Ex : Membre, Builder..." />
                 <label>Description (max 500 caractères) :</label><textarea id="description" maxlength="500"></textarea>
                 <label>Une photo (skin du joueur) :</label><input id="skinPhoto" type="file" accept="image/*" />
                 <div class="form-help">Limite : 5 Mo maximum.</div>
-                <label>Joue depuis :</label><input id="playSince" type="number" min="2009" max="2100"
-                    placeholder="Ex : 2024" />
 
                 <div class="button-row"><button class="mc-btn" onclick="savePlayer()">Ajouter</button><button
                         class="mc-btn gray" onclick="closeModals()">Annuler</button></div>
@@ -1924,7 +1921,7 @@
 
                 document.getElementById('playerTarget').value = target || 'community';
                 document.getElementById('playerModalTitle').textContent = 'Ajouter un joueur';
-                ['pseudo', 'role', 'description', 'playSince'].forEach(id => document.getElementById(id).value = '');
+                ['pseudo', 'description'].forEach(id => document.getElementById(id).value = '');
                 document.getElementById('skinPhoto').value = '';
                 document.getElementById('playerModal').classList.add('active');
             }
@@ -2015,16 +2012,15 @@
             async function savePlayer() {
                 try {
                     const image = await readImage(document.getElementById('skinPhoto').files[0]);
-                    const playSince = document.getElementById('playSince').value;
                     const existingPlayer = currentEditTarget === 'community' && currentEditIndex !== null
                         ? state.community[currentEditIndex]
                         : null;
 
                     const item = {
                         pseudo: document.getElementById('pseudo').value.trim() || 'Joueur',
-                        role: document.getElementById('role').value.trim() || 'Membre',
+                        role: existingPlayer ? existingPlayer.role : 'Membre',
                         description: document.getElementById('description').value.trim(),
-                        rejoint_le: playSince ? `${playSince}-01-01` : null
+                        rejoint_le: existingPlayer ? existingPlayer.joined : null
                     };
 
                     if (image) {
@@ -2367,18 +2363,9 @@
 
                             <h3>${escapeHtml(p.pseudo || 'Joueur')}</h3>
 
-                            <div class="badge">
-                                ${escapeHtml(p.role || 'Membre')}
-                            </div>
-
                             <p class="player-description">
                                 ${escapeHtml(p.description || 'Aucune description.')}
                             </p>
-
-                            ${p.joined
-                                ? `<div class="meta">Joue depuis : ${formatYear(p.joined)}</div>`
-                                : ''
-                            }
 
                             <br>
 
@@ -2417,9 +2404,7 @@
                 document.getElementById('playerTarget').value = target;
                 document.getElementById('playerModalTitle').textContent = 'Modifier un joueur';
                 document.getElementById('pseudo').value = player.pseudo || '';
-                document.getElementById('role').value = player.role || '';
                 document.getElementById('description').value = player.description || '';
-                document.getElementById('playSince').value = player.joined ? formatYear(player.joined) : '';
                 document.getElementById('skinPhoto').value = '';
                 document.getElementById('playerModal').classList.add('active');
             }
